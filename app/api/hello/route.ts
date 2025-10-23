@@ -1,5 +1,5 @@
-import db from "@/lib/db";
-import { usersTable } from "@/lib/db/schema";
+import db from "@/lib/backend/db";
+import { usersTable } from "@/lib/backend/db/schema";
 
 export async function GET(request: Request) {
   return Response.json(await db.select().from(usersTable));

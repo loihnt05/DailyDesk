@@ -1,36 +1,52 @@
-# Bíp bíp
+# DailyDesk
 
-## Getting Started
+## Giới thiệu
 
-First, run the development server:
+DailyDesk là một project Next.js nhỏ dùng để demo cấu trúc ứng dụng web hiện đại với TypeScript, Drizzle ORM và một vài thư viện phổ biến trong hệ sinh thái React.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Công nghệ sử dụng
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Next.js (React) - framework ứng dụng web phía server và client
+- TypeScript - kiểu tĩnh cho JavaScript
+- Drizzle ORM (drizzle-kit) - ORM cho PostgreSQL (sử dụng driver pglite)
+- PostgreSQL cơ sở dữ liệu
+- Axios - HTTP client tùy chỉnh (`lib/http.ts`)
+- Tailwind CSS - tiện ích giúp viết CSS nhanh
+- Zod - validation schema
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Hướng dẫn code
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. HTTP client
 
-## Learn More
+	- Project có một HTTP client tùy chỉnh dùng `axios` tại `lib/http.ts`.
+	- Để gọi API từ client hoặc server, import client này:
 
-To learn more about Next.js, take a look at the following resources:
+	  Ví dụ (client-side):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+	  ```ts
+	  import http from '@/lib/http';
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+	  const res = await http.get('/hello');
+	  ```
 
-## Deploy on Vercel
+2. Drizzle (migrations / push)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+	- Các lệnh liên quan trong `package.json`:
+	  - `pnpm run db:push`: Cập nhật database
+	- Thiết lập env:
+	  - `DATABASE_URL` cần được đặt để Drizzle kết nối tới database. Ví dụ cho pglite (local):
+		 DATABASE_URL=postgresql://user:password@localhost:5432/dbname
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+	- Schema chính nằm trong `lib/db/schema.ts` (ví dụ table `users` được định nghĩa sẵn).
+
+3. Cấu trúc folder chính (tóm tắt)
+
+	- `app/` — routes và components theo Next.js App Router
+	- `components/` — các component UI tái sử dụng
+	- `lib/` — helper như `lib/http.ts`, `lib/db/schema.ts`
+	- `db/` or `lib/db/` — nơi đặt schema và kết nối DB
+
+5. Environment variables (ví dụ)
+
+	- `NEXT_PUBLIC_API_BASE_URL` — base URL cho client-side API
+	- `DATABASE_URL` — connection string cho Drizzle / pglite
