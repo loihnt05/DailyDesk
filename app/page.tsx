@@ -2,15 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
+import http from "@/lib/http";
+import { faker } from "@faker-js/faker";
 
 export default function Home() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["hello"],
     queryFn: async () => {
-      const res = await fetch("/api/hello");
-      return await res.json();
+      const res = await http.get("/hello");
+      return await res.data;
     },
   });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -19,12 +22,10 @@ export default function Home() {
   }
 
   async function createUser() {
-    const res = await fetch("/api/hello", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: "John", age: 30, email: "john@example.com" }),
+    await http.post("/hello", {
+      name: faker.person.firstName(),
+      age: 30,
+      email: faker.internet.email(),
     });
   }
 
