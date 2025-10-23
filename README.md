@@ -1,5 +1,23 @@
 # DailyDesk
 
+## Chạy project
+Sau khi đã có `pnpm` thì chạy các lệnh sau.
+
+1. Cài đặt các package
+```sh
+pnpm install
+```
+
+2. Setup database
+```
+pnpm drizzle-kit push
+```
+
+3. Chạy app
+```
+pnpm dev
+```
+
 ## Giới thiệu
 
 DailyDesk là một project Next.js nhỏ dùng để demo cấu trúc ứng dụng web hiện đại với TypeScript, Drizzle ORM và một vài thư viện phổ biến trong hệ sinh thái React.
