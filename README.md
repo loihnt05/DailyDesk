@@ -38,6 +38,7 @@ DailyDesk là một project Next.js nhỏ dùng để demo cấu trúc ứng d�
 		 DATABASE_URL=postgresql://user:password@localhost:5432/dbname
 
 	- Schema chính nằm trong `lib/db/schema.ts` (ví dụ table `users` được định nghĩa sẵn).
+  - Có thể chạy lệnh `pnpm drizzle-kit studio` để test database
 
 3. Cấu trúc folder chính (tóm tắt)
 
