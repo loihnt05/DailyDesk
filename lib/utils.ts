@@ -4,3 +4,12 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function isValidUri(uriString: string): boolean {
+  try {
+    new URL(uriString);
+    return true;
+  } catch {
+    return false;
+  }
+}

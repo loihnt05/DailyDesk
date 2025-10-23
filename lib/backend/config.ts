@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { isValidUri } from '../utils';
 
 export type Config = {
   databaseUrl: string;
@@ -33,7 +34,7 @@ export default function getConfig(): Config {
     isProduction: process.env.NODE_ENV === "production",
   };
 
-  if (!config.isProduction) {
+  if (!isValidUri(config.databaseUrl)) {
     ensureFolderExistsSync(config.databaseUrl); // Ensure the database storage folder exists in development
   }
 
