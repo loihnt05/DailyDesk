@@ -1,27 +1,40 @@
 "use client";
-import { useUser } from "@auth0/nextjs-auth0";
-import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import http from "@/lib/http";
+import { faker } from "@faker-js/faker";
 
 export default function Home() {
-  const { user, isLoading } = useUser();
+  const queryClient = useQueryClient();
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["hello"],
+    queryFn: async () => {
+      const res = await http.get("/hello");
+      return await res.data;
+    },
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error!</div>;
+  }
+
+  async function createUser() {
+    await http.post("/hello", {
+      name: faker.person.firstName(),
+      age: 30,
+      email: faker.internet.email(),
+    });
+    queryClient.invalidateQueries({ queryKey: ["hello"] });
+  }
+
   return (
     <div>
-      {isLoading && <p>Loading...</p>}
-      {!user && <Link href="/auth/login">Login</Link>}
-      {user && (
-        <div style={{ textAlign: "center" }}>
-          <a href="/auth/logout">Logout</a>
-
-          <img
-            src={user.picture}
-            alt="Profile"
-            style={{ borderRadius: "50%", width: "80px", height: "80px" }}
-          />
-          <h2>{user.name}</h2>
-          <p>{user.email}</p>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
-        </div>
-      )}
+      <div>Users: {JSON.stringify(data, null, 2)}</div>
+      <Button onClick={createUser}>Create new user</Button>
     </div>
   );
 }
