@@ -38,3 +38,7 @@ export default function Home() {
     </div>
   );
 }
+
+export function Profile() {
+  return <></>;
+}

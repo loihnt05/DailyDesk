@@ -10,6 +10,7 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^4.11.0",
     "@electric-sql/pglite": "^0.3.11",
     "@faker-js/faker": "^10.1.0",
     "@prisma/client": "^6.17.1",
